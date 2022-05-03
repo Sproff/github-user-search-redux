@@ -9,18 +9,18 @@ export const SubmitButton = ({ searchUsers }) => {
         size="sm"
         fontSize=".9rem"
         onClick={searchUsers}
-        bg="#7272d0"
+        bg="#b9b9d0"
         color="#fff"
         title="buttonClicked"
         _active={{
-          backgroundColor: "#7272d0",
+          backgroundColor: "#b9b9d0",
         }}
         _focus={{
           boxShadow: "none",
         }}
         _hover={{
-          borderColor: "#7272d0",
-          backgroundColor: "#7272d0",
+          borderColor: "#b9b9d0",
+          backgroundColor: "#b9b9d0",
           boxShadow: "none",
           color: "#fff",
         }}

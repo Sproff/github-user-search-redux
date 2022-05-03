@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { InputGroup, InputRightElement, Input, HStack } from "@chakra-ui/react";
+
 import { SubmitButton } from "./Button";
 import instance from "../../queries/axios.config";
-import { getUsersSuccess } from "../../redux/actions/success";
-import { getUsersFailed } from "../../redux/actions/error";
+import { getUserError, getUserSuccess } from "../../redux/actions/action";
 
 export const SearchInput = () => {
   const [login, setLogin] = useState("");
-  
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
 
   const searchUsers = async () => {
     try {
       const { data } = await instance.get(`/users?q=${login}`);
-      dispatch(getUsersSuccess(data));
-    } catch {
-      dispatch(getUsersFailed());
+      dispatch(getUserSuccess(data.items));
+    } catch (error) {
+      dispatch(getUserError(error.message));
     }
   };
 
@@ -35,14 +34,17 @@ export const SearchInput = () => {
             setLogin(e.target.value);
           }}
           type="search"
-          placeholder="Search for a user"
+          placeholder="Search for a github user"
           border="none"
           focusBorderColor="none"
           fontSize="1rem"
           title="searchInput"
+          _placeholder={{
+            fontSize: [".8rem", "1rem"],
+          }}
         />
         <InputRightElement width="4.5rem" h="100%" mr="1rem">
-          <SubmitButton searchUsers={searchUsers} />
+          <SubmitButton type="submit" searchUsers={searchUsers} />
         </InputRightElement>
       </InputGroup>
     </HStack>

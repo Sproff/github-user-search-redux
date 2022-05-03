@@ -1,29 +1,22 @@
-import { GET_USERS_FAILED, GET_USERS_REQUESTED, GET_USERS_SUCCESS } from "../constants/types";
+import { GET_USER_SUCCESS, GET_USER_ERROR } from "../constants/types";
 
 export const initialState = {
-  data: [],
-  loading: false,
-  error: "Please search for a user",
+  data: null,
+  error: null,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_USERS_REQUESTED:
+    case GET_USER_SUCCESS:
       return {
         ...state,
-        loading: true,
-      };
-    case GET_USERS_SUCCESS:
-      return {
-        ...state,
-        loading: true,
         data: action.payload,
+        error: null,
       };
-    case GET_USERS_FAILED:
+    case GET_USER_ERROR:
       return {
         ...state,
-        loading: false,
-        data: [],
+        data: null,
         error: action.payload,
       };
     default:

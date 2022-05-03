@@ -1,21 +1,26 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Box, Container, Skeleton, Stack, Text } from "@chakra-ui/react";
 import DataTable from "react-data-table-component";
+import { Box, Container, Text } from "@chakra-ui/react";
 
 export const SearchResults = () => {
-  const getUsersSuccess = useSelector((state) => state);
-  const getUsersLoading = useSelector((state) => state.loading);
-  const getUsersFailed = useSelector((state) => state.error);
+  const getUserSuccess = useSelector((state) => state);
 
   const columns = [
     {
-      name: "Avatar Url",
+      name: "Avatar",
       selector: (row) => `${row.avatar_url}`,
       sortable: true,
       center: true,
       cell: (row) => (
-        <div data-tag="allowRowEvents" style={{ margin: ".5rem 0rem" }}>
+        <div
+          data-tag="allowRowEvents"
+          style={{
+            border: "3px solid #b9b9d0",
+            borderRadius: "50%",
+            margin: ".5rem 0rem",
+          }}
+        >
           <img
             src={row.avatar_url}
             alt="avatar"
@@ -23,24 +28,36 @@ export const SearchResults = () => {
           />
         </div>
       ),
+      style: {
+        color: "#b9b9d0",
+        fontSize: "1.2rem",
+      },
     },
     {
-      name: "Login",
+      name: "Username",
       selector: (row) => `${row.login}`,
       sortable: true,
       center: true,
+      style: {
+        color: "#9494bb",
+        fontSize: "1.2rem",
+      },
     },
     {
       name: "Type",
       selector: (row) => `${row.type}`,
       sortable: true,
       center: true,
+      style: {
+        color: "#9494bb",
+        fontSize: "1.2rem",
+      },
     },
   ];
 
   const tableData =
-    getUsersSuccess.data.length > 0 &&
-    getUsersSuccess.data.map((item) => ({
+    getUserSuccess?.data?.length > 0 &&
+    getUserSuccess?.data?.map((item) => ({
       id: item.id,
       avatar_url: item.avatar_url,
       login: item.login,
@@ -48,36 +65,31 @@ export const SearchResults = () => {
     }));
 
   return (
-    <Box>
-      <Container maxW="container.xl" my="4rem">
+    <Box pos="relative">
+      <Container maxW="1024px" py="4rem" h="100%">
         <Box>
-          {getUsersSuccess.data.length > 0 ? (
+          {getUserSuccess?.data?.length > 0 ? (
             <Box>
-              {getUsersLoading ? (
-                <DataTable
-                  title="Search Results"
-                  columns={columns}
-                  data={tableData}
-                  pagination={true}
-                  paginationPerPage={9}
-                  paginationRowsPerPageOptions={[9, 16, 21, 26]}
-                  defaultSortField="login"
-                  width="100%"
-                />
-              ) : (
-                <Stack>
-                  <Skeleton height="70px" />
-                  <Skeleton height="70px" />
-                  <Skeleton height="70px" />
-                </Stack>
-              )}
+              <DataTable
+                title="GitHub Search Results"
+                columns={columns}
+                data={tableData}
+                pagination={true}
+                paginationPerPage={9}
+                paginationRowsPerPageOptions={[9, 16, 21, 26]}
+                defaultSortField="login"
+                width="100%"
+              />
             </Box>
           ) : (
-            <Text>
-              {getUsersFailed === null
-                ? "Oops. No user found! Please search for a user"
-                : getUsersFailed}
-            </Text>
+            <Box textAlign="center">
+              <Box fontSize={["5rem", "10rem"]} color="#b9b9d0">
+                <i className="fas fa-ghost"></i>
+              </Box>
+              <Text fontSize={[".8rem", "1rem"]}>
+                No user found! Please search for a user
+              </Text>
+            </Box>
           )}
         </Box>
       </Container>

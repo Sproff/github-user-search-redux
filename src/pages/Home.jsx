@@ -6,7 +6,13 @@ import { SearchResults } from "../components/SearchResults";
 
 export const Home = () => {
   return (
-    <Box bg="#fafafa" position="relative">
+    <Box
+      maxW="1024px"
+      m="auto"
+      bg="#fafafa"
+      position="relative"
+      fontFamily="Space Mono"
+    >
       <Header />
       <SearchInput />
       <SearchResults />
